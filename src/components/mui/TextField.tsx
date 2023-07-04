@@ -30,8 +30,8 @@ const TextField = ({
     event.preventDefault();
 
   return (
-    <Box width="100%" minHeight="85px" {...boxProps}>
-      <Typography variant="body1" color="text.secondary" mb={4}>
+    <Box width="100%" minHeight="95px" {...boxProps}>
+      <Typography variant="body1" color="text.secondary" mb={6}>
         {label}
       </Typography>
       <MuiTextField

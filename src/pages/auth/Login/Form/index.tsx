@@ -57,6 +57,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         helperText={touched.email && errors.email}
       />
       <TextField
+        password
         label="Password"
         placeholder="Password"
         name="password"
@@ -73,6 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         direction="row"
         justifyContent="space-between"
         alignItems="center"
+        my={15}
       >
         <CheckBox name="savePassword" label="Save Password" />
         <Link
@@ -86,6 +88,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           Forgot Password?
         </Link>
       </Stack>
+
       <BackendError errorMsg={errorMsg} />
       <LoadingButton
         fullWidth

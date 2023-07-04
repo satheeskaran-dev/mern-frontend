@@ -46,7 +46,9 @@ const ActivateForm: React.FC<Props> = ({
       </Box>
 
       <TextField
+        password
         placeholder="Password"
+        label="Password"
         name="password"
         disabled={isSubmitting}
         value={values.password}
@@ -56,6 +58,8 @@ const ActivateForm: React.FC<Props> = ({
         helperText={touched.password && errors.password}
       />
       <TextField
+        password
+        label="Retype password"
         placeholder="Retype Password"
         name="re_password"
         disabled={isSubmitting}
