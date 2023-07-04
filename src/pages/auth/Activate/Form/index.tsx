@@ -10,6 +10,7 @@ import { InitialValues, initialValues } from "./initialValues";
 import validationSchema from "./validationSchema";
 
 interface Props {
+  errorMsg: string;
   handleFormSubmit: (
     val: InitialValues,
     helpers: FormikHelpers<InitialValues>
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const ActivateForm: React.FC<Props> = ({
+  errorMsg,
   avatarUploaderProps,
   handleFormSubmit,
 }) => {
@@ -63,7 +65,7 @@ const ActivateForm: React.FC<Props> = ({
         error={touched.re_password && Boolean(errors.re_password)}
         helperText={touched.re_password && errors.re_password}
       />
-      <BackendError errorMsg={null} />
+      <BackendError errorMsg={errorMsg} />
       <LoadingButton fullWidth variant="contained" type="submit">
         Activate account
       </LoadingButton>

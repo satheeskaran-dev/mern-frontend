@@ -16,6 +16,13 @@ export const authServiceApi = createApi({
         body: data,
       }),
     }),
+    accountActivate: builder.mutation({
+      query: (data) => ({
+        url: ApiSlug.ACTIVATE,
+        method: "POST",
+        body: data,
+      }),
+    }),
     login: builder.mutation({
       query: (credentials) => ({
         url: ApiSlug.LOGIN,
@@ -35,5 +42,6 @@ export const authServiceApi = createApi({
 export const {
   useSignupMutation,
   useLoginMutation,
+  useAccountActivateMutation,
   util: authServiceApiUtil,
 } = authServiceApi;
