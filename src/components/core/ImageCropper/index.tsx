@@ -13,12 +13,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import getCroppedImg from "./cropper";
 import BackendError from "../BackendError";
 import FlexBox from "../FlexBox";
+import { OpenCropStateType } from "../../../hooks/useImageCropper";
 
 interface ImageCropperProps {
   imageURL: string;
-  openCrop: boolean;
-  setOpenCrop: React.Dispatch<React.SetStateAction<boolean>>;
-  setImageURL: React.Dispatch<React.SetStateAction<string>>;
+  openCrop: OpenCropStateType;
+  setOpenCrop: React.Dispatch<React.SetStateAction<OpenCropStateType>>;
+  setMyImageURL: React.Dispatch<React.SetStateAction<string>>;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
 type CroppedImage = {
@@ -30,7 +31,7 @@ const ImageCropper = ({
   imageURL,
   openCrop,
   setOpenCrop,
-  setImageURL,
+  setMyImageURL,
   setFile,
 }: ImageCropperProps) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -42,7 +43,7 @@ const ImageCropper = ({
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  const handleClose = () => setOpenCrop(false);
+  const handleClose = () => setOpenCrop({ status: false, error: null });
 
   const cropImage = async () => {
     try {
@@ -54,9 +55,10 @@ const ImageCropper = ({
 
       if (croppedImage) {
         const { file, url } = croppedImage;
-        setImageURL(url);
+
+        setMyImageURL(url);
         setFile(file);
-        setOpenCrop(false);
+        setOpenCrop({ status: false, error: null });
       } else {
         // Handle the case when the cropped image is null
       }
@@ -66,7 +68,7 @@ const ImageCropper = ({
   };
   return (
     <Modal
-      open={openCrop}
+      open={openCrop.status}
       onClose={(e: any, reason: string) => {
         if (reason !== "backdropClick") handleClose();
       }}
@@ -102,6 +104,7 @@ const ImageCropper = ({
             crop={crop}
             zoom={zoom}
             rotation={rotation}
+            cropShape="round"
             aspect={1}
             onZoomChange={setZoom}
             onRotationChange={setRotation}
@@ -112,9 +115,8 @@ const ImageCropper = ({
             }}
           />
         </Box>
-        <BackendError errorMsg={null} />
 
-        <FlexBox gap={15} justifyContent="space-between">
+        <FlexBox gap={15} mt={10} justifyContent="space-between">
           <Typography fontWeight={500} color="text.secondary">
             Zoom
           </Typography>
@@ -144,6 +146,8 @@ const ImageCropper = ({
             onChange={(e, rotation) => setRotation(rotation as number)}
           />
         </FlexBox>
+
+        <BackendError errorMsg={openCrop.error} />
 
         <Box
           display="flex"
@@ -175,6 +179,7 @@ const ImageCropper = ({
               width: "100%",
             }}
             onClick={cropImage}
+            disabled={Boolean(openCrop.error)}
           >
             Save
           </Button>

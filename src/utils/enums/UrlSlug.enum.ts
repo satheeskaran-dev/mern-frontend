@@ -9,4 +9,5 @@ export enum UrlSlugType {
   // private routes
 
   HOME = "/home",
+  PREFERENCES = "/preferences",
 }

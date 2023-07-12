@@ -1,14 +1,27 @@
-import { Avatar, Box, Typography } from "@mui/material";
-
-const ProfileCard = () => {
+import { Avatar, Box, BoxProps, Typography } from "@mui/material";
+interface ProfileCardProps {
+  firstName: string;
+  lastName: string;
+  image: string;
+  email: string;
+}
+const ProfileCard: React.FC<ProfileCardProps & BoxProps> = ({
+  firstName,
+  lastName,
+  email,
+  image,
+  ...props
+}) => {
   return (
     <Box
       display="flex"
       gap={{ xs: 0, md: 7 }}
       alignItems="center"
       sx={{ cursor: "pointer" }}
+      {...props}
     >
       <Avatar
+        src={image}
         sx={{ width: { xs: 28, md: 39 }, height: { xs: 28, md: 39 } }}
         imgProps={{ referrerPolicy: "no-referrer" }}
       />
@@ -19,7 +32,7 @@ const ProfileCard = () => {
           whiteSpace="nowrap"
           color="text.secondary"
         >
-          Satheeskaran
+          {firstName + " " + lastName}
         </Typography>
         <Typography
           fontSize="10px"
@@ -27,7 +40,7 @@ const ProfileCard = () => {
           whiteSpace="nowrap"
           color="text.secondary"
         >
-          satheesh@gmail.com
+          {email}
         </Typography>
       </Box>
     </Box>

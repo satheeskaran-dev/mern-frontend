@@ -12,9 +12,9 @@ import AuthSuccess from "../../../layouts/Auth/components/Success";
 interface Props {}
 
 const Activate: React.FC<Props> = (props) => {
-  const { ImageCropper, imageURL, handleChange } = useImageCropper();
+  const { ImageCropper, file, myImageURL, handleChange } = useImageCropper();
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const token = searchParams.get("token") as string;
   const navigate = useNavigate();
 
   const [accountActivate, { error, isLoading, isSuccess }] =
@@ -23,14 +23,23 @@ const Activate: React.FC<Props> = (props) => {
   if (!token) navigate(UrlSlugType.LOGIN);
 
   const handleActivateFromSubmit = useCallback(
-    async (val: InitialValues, helpers: FormikHelpers<InitialValues>) => {
+    async (
+      { password }: InitialValues,
+      helpers: FormikHelpers<InitialValues>
+    ) => {
       try {
-        await accountActivate({ password: val.password, token });
+        const formData = new FormData();
+
+        formData.append("password", password);
+        formData.append("token", token);
+        formData.append("image", file as File);
+
+        await accountActivate(formData);
       } catch (err) {
         console.log(err);
       }
     },
-    [accountActivate, token]
+    [accountActivate, token, file]
   );
   return (
     <Container>
@@ -41,7 +50,7 @@ const Activate: React.FC<Props> = (props) => {
         />
       ) : (
         <ActivateForm
-          avatarUploaderProps={{ src: imageURL, handleChange }}
+          avatarUploaderProps={{ src: myImageURL, handleChange }}
           handleFormSubmit={handleActivateFromSubmit}
           errorMsg={error?.data?.message}
         />

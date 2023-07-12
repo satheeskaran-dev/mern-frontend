@@ -3,11 +3,15 @@ import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import SideBar from "./components/SideBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/slices/auth.slice";
+import { Mode } from "../../store/slices/theme.slice";
 
 const PrivateLayout = () => {
   const [open, setOpen] = useState<boolean>(false);
+
+  const user = useSelector((state: any) => state?.auth?.user);
+  const mode: Mode = useSelector((state: any) => state?.theme?.mode);
 
   const dispatch = useDispatch();
 
@@ -23,7 +27,7 @@ const PrivateLayout = () => {
         signOutClick={handleLogout}
       />
       <Box width="100%">
-        <Header handleMenuButtonClicked={handleSideDrawerOpen} />
+        <Header {...{ handleSideDrawerOpen, user, mode }} />
         <Box
           width="100%"
           height="calc(100% - 60px)"

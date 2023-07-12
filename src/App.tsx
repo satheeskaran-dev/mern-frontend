@@ -9,18 +9,32 @@ import {
   ThemeWithProps,
 } from "@mui/material";
 import { themeSettings } from "./config/theme";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Mode } from "./store/slices/theme.slice";
 
 function App() {
-  const mode = useSelector((state: any) => state.theme.mode);
+  const [systemTheme, setSystemTheme] = useState<boolean>(false);
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const token = useSelector((state: any) => state.auth.token);
+
   const theme = useMemo(
-    () => createTheme(themeSettings(mode) as ThemeWithProps),
+    () =>
+      createTheme(
+        themeSettings(
+          mode === "system" ? (systemTheme === true ? "dark" : "light") : mode
+        ) as ThemeWithProps
+      ),
 
-    [mode]
+    [mode, systemTheme]
   );
-  const token = useSelector((state: any) => state?.auth?.token);
 
-  // test comment
+  useEffect(() => {
+    const systemPrefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    setSystemTheme(systemPrefersDark);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

@@ -17,11 +17,14 @@ export const authServiceApi = createApi({
       }),
     }),
     accountActivate: builder.mutation({
-      query: (data) => ({
-        url: ApiSlug.ACTIVATE,
-        method: "POST",
-        body: data,
-      }),
+      query: (data) => {
+        console.log("data =>", data);
+        return {
+          url: ApiSlug.ACTIVATE,
+          method: "POST",
+          body: data,
+        };
+      },
     }),
     login: builder.mutation({
       query: (credentials) => ({

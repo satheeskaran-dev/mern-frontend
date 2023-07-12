@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useGetAllUsersQuery } from "../../../service/userService";
 
 interface Props {}
@@ -6,7 +6,9 @@ interface Props {}
 const Home: React.FC<Props> = (props) => {
   const { data } = useGetAllUsersQuery(null);
 
-  return <Box>{JSON.stringify(data)}</Box>;
+  console.log(data);
+
+  return <Typography variant="h3">Home page</Typography>;
 };
 
 export default Home;
