@@ -1,48 +1,30 @@
-import { BrowserRouter } from "react-router-dom";
 import PublicRoutes from "./routes/PublicRoutes";
 import PrivateRoutes from "./routes/PrivateRoutes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ThemeWrapper from "./ThemeWrapper";
+import Snackbar from "./components/core/Snackbar";
 import {
-  ThemeProvider,
-  CssBaseline,
-  createTheme,
-  ThemeWithProps,
-} from "@mui/material";
-import { themeSettings } from "./config/theme";
-import { useEffect, useMemo, useState } from "react";
-import { Mode } from "./store/slices/theme.slice";
+  NotificationStateType,
+  closeNotification,
+} from "./store/slices/notification.slice";
 
 function App() {
-  const [systemTheme, setSystemTheme] = useState<boolean>(false);
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
   const token = useSelector((state: any) => state.auth.token);
-
-  const theme = useMemo(
-    () =>
-      createTheme(
-        themeSettings(
-          mode === "system" ? (systemTheme === true ? "dark" : "light") : mode
-        ) as ThemeWithProps
-      ),
-
-    [mode, systemTheme]
+  const { status, msg, title } = useSelector(
+    (state: any) => state.notification as NotificationStateType
   );
-
-  useEffect(() => {
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    setSystemTheme(systemPrefersDark);
-  }, []);
+  const dispatch = useDispatch();
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        {token ? <PrivateRoutes /> : <PublicRoutes />}
-      </BrowserRouter>
-    </ThemeProvider>
+    <ThemeWrapper>
+      {token ? <PrivateRoutes /> : <PublicRoutes />}
+      <Snackbar
+        open={status}
+        title={title}
+        msg={msg}
+        handleClose={() => dispatch(closeNotification())}
+      />
+    </ThemeWrapper>
   );
 }
 

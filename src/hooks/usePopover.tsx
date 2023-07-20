@@ -1,9 +1,7 @@
 import { ReactNode, useState } from "react";
 import {
-  Box,
   BoxProps,
   Popover as MuiPopover,
-  Paper,
   PaperProps,
   PopoverProps,
   useTheme,

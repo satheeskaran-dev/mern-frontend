@@ -1,4 +1,4 @@
-import localStorage from "redux-persist/lib/storage";
+import localStorage from "redux-persist/lib/storage/session";
 import {
   FLUSH,
   PAUSE,
@@ -13,6 +13,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth.slice";
 import themeReducer from "./slices/theme.slice";
+import notificationReducer from "./slices/notification.slice";
 import thunk from "redux-thunk";
 import { authServiceApi } from "../service/authService";
 import { userServiceApi } from "../service/userService";
@@ -28,6 +29,7 @@ const persistedReducer = persistReducer(
   combineReducers({
     auth: authReducer,
     theme: themeReducer,
+    notification: notificationReducer,
     [authServiceApi.reducerPath]: authServiceApi.reducer,
     [userServiceApi.reducerPath]: userServiceApi.reducer,
   })
