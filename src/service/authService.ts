@@ -26,6 +26,11 @@ export const authServiceApi = createApi({
         };
       },
     }),
+    googleLogin: builder.query({
+      query: () => ({
+        url: ApiSlug.GOOGLE_LOGIN,
+      }),
+    }),
     login: builder.mutation({
       query: (credentials) => ({
         url: ApiSlug.LOGIN,
@@ -46,5 +51,7 @@ export const {
   useSignupMutation,
   useLoginMutation,
   useAccountActivateMutation,
+  useGoogleLoginQuery,
+  useLazyGoogleLoginQuery,
   util: authServiceApiUtil,
 } = authServiceApi;

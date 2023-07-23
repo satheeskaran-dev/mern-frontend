@@ -10,6 +10,9 @@ import CustomLink from "../../../../components/core/CustomLink";
 import { FormikHelpers, useFormik } from "formik";
 import initialValues, { InitialValues } from "./initialValues";
 import validationSchema from "./validationSchema";
+import { useCallback } from "react";
+import openLinkInNewWindow from "../../../../utils/helpers/openLinkInNewWindow";
+import { SsoSlug } from "../../../../utils/enums/SsoSlug.enum";
 
 interface LoginFormProps {
   errorMsg: string | null;
@@ -25,6 +28,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const handleGoogleLogin = useCallback(
+    () =>
+      openLinkInNewWindow({
+        url: SsoSlug.GOOGLE,
+        title: "SSO",
+        w: 420,
+        h: 600,
+      }),
+    []
+  );
 
   const {
     values,
@@ -103,7 +117,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           OR
         </Typography>
       </Divider>
-      <SsoAuthButton />
+      <SsoAuthButton onClick={handleGoogleLogin} />
 
       <CustomLink
         desc="Don’t have an account?"
