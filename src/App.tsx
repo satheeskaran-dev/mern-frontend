@@ -7,6 +7,9 @@ import {
   NotificationStateType,
   closeNotification,
 } from "./store/slices/notification.slice";
+import { setAuth } from "./store/slices/auth.slice";
+
+const bc = new BroadcastChannel("SSO");
 
 function App() {
   const token = useSelector((state: any) => state.auth.token);
@@ -14,6 +17,7 @@ function App() {
     (state: any) => state.notification as NotificationStateType
   );
   const dispatch = useDispatch();
+  bc.onmessage = (event) => dispatch(setAuth(event.data));
 
   return (
     <ThemeWrapper>

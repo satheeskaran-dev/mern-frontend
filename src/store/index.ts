@@ -1,4 +1,5 @@
-import localStorage from "redux-persist/lib/storage/session";
+// import localStorage from "redux-persist/lib/storage/session";
+import localStorage from "redux-persist/lib/storage";
 import {
   FLUSH,
   PAUSE,

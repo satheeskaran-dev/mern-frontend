@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 interface Props {}
 
 const Login: React.FC<Props> = (props) => {
-  const [login, { error = "", reset }] = useLoginMutation({
+  const [login, { error = "" }] = useLoginMutation({
     fixedCacheKey: "auth-data",
   });
   const dispatch = useDispatch();

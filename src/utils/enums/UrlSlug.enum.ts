@@ -5,6 +5,7 @@ export enum UrlSlugType {
   DASHBOARD = "/dashboard",
   SIGN_UP = "/sign-up",
   USER_ACTIVATE = "/activate",
+  SSO_CALL_BACK = "/sso/google",
 
   // private routes
 

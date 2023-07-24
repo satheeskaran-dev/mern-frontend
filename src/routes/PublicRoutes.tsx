@@ -6,6 +6,7 @@ import Signup from "../pages/auth/Signup";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Activate from "../pages/auth/Activate";
+import SSOCallback from "../pages/auth/SsoCallback";
 
 const PublicRoutes = () =>
   useRoutes([
@@ -34,6 +35,10 @@ const PublicRoutes = () =>
         },
         { path: "*", element: <Navigate to={UrlSlugType.LOGIN} replace /> },
       ],
+    },
+    {
+      path: UrlSlugType.SSO_CALL_BACK,
+      element: <SSOCallback />,
     },
   ]);
 
