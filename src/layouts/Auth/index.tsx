@@ -22,12 +22,7 @@ const AuthLayout = ({ children }: { children?: any }) => {
         flexDirection="column"
         alignItems="center"
       >
-        <Box
-          height="100%"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-        >
+        <Box height="100%" display="flex" flexDirection="column" justifyContent="center">
           <Box width="100%" display="flex">
             <TeamIcon
               style={{
@@ -42,12 +37,7 @@ const AuthLayout = ({ children }: { children?: any }) => {
         </Box>
       </Box>
 
-      <Box
-        width={{ xs: "100%", md: "40%" }}
-        pt={{ xs: "16px", md: "82px" }}
-        height="100%"
-        display="flex"
-      >
+      <Box width={{ xs: "100%", md: "40%" }} pt={{ xs: "16px", md: "52px" }} height="100%" display="flex">
         {children ?? <Outlet />}
       </Box>
     </Box>

@@ -36,7 +36,7 @@ const Snackbar = ({
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}
-      autoHideDuration={3000}
+      autoHideDuration={5000}
       {...props}
     >
       <Paper

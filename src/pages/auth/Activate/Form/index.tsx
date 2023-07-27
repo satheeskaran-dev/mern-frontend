@@ -1,79 +1,62 @@
-import { Typography, Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import TextField from "../../../../components/mui/TextField";
 import BackendError from "../../../../components/core/BackendError";
-import AvatarUploader, {
-  AvatarUploaderPropType,
-} from "../../../../components/core/AvatarUploader";
 import { FormikHelpers, useFormik } from "formik";
-import { InitialValues, initialValues } from "./initialValues";
 import validationSchema from "./validationSchema";
+import FirstStep from "./steps/FirstStep";
+import { ActivateInitialValues } from "../type";
+import SecondStep from "./steps/SecondStep";
+import FlexBox from "../../../../components/core/FlexBox";
+import { AvatarUploaderPropType } from "../../../../components/core/AvatarUploader";
+import { Form } from "../styles";
 
 interface Props {
+  currentStep: number;
+  user: any;
   errorMsg: string;
-  handleFormSubmit: (
-    val: InitialValues,
-    helpers: FormikHelpers<InitialValues>
-  ) => void;
-  avatarUploaderProps?: AvatarUploaderPropType;
+  handleFormSubmit: (val: ActivateInitialValues, helpers: FormikHelpers<ActivateInitialValues>) => void;
+  avatarUploaderProps: AvatarUploaderPropType;
+  handleBack: () => void;
 }
 
-const ActivateForm: React.FC<Props> = ({
-  errorMsg,
-  avatarUploaderProps,
-  handleFormSubmit,
-}) => {
-  const {
-    values,
-    touched,
-    errors,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues,
-    validationSchema,
+const ActivateForm: React.FC<Props> = ({ currentStep, user, errorMsg, avatarUploaderProps, handleFormSubmit, handleBack }) => {
+  console.log("values =>", user);
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      avatar: "",
+      password: "",
+      re_password: "",
+    } as ActivateInitialValues,
+    validationSchema: validationSchema[currentStep],
     onSubmit: handleFormSubmit,
+    enableReinitialize: true,
   });
+
+  const renderForm = [<FirstStep {...formik} avatarUploaderProps={avatarUploaderProps} />, <SecondStep {...formik} />];
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={formik.handleSubmit}>
       <Typography mb={18} fontSize="26px" fontWeight="600" align="center">
         Activate your account
       </Typography>
-      <Box display="flex" justifyContent="center" mb={20}>
-        <AvatarUploader {...avatarUploaderProps} />
-      </Box>
 
-      <TextField
-        password
-        placeholder="Password"
-        label="Password"
-        name="password"
-        disabled={isSubmitting}
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={touched.password && Boolean(errors.password)}
-        helperText={touched.password && errors.password}
-      />
-      <TextField
-        password
-        label="Retype password"
-        placeholder="Retype Password"
-        name="re_password"
-        disabled={isSubmitting}
-        value={values.re_password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={touched.re_password && Boolean(errors.re_password)}
-        helperText={touched.re_password && errors.re_password}
-      />
+      {renderForm[currentStep]}
       <BackendError errorMsg={errorMsg} />
-      <LoadingButton fullWidth variant="contained" type="submit">
-        Activate account
-      </LoadingButton>
-    </form>
+      <Box flexGrow={1} />
+      <FlexBox justifyContent={currentStep === 0 ? "flex-end" : "space-between"} mt={20}>
+        {currentStep !== 0 && (
+          <LoadingButton sx={{ width: "40%" }} variant="outlined" onClick={handleBack}>
+            Back
+          </LoadingButton>
+        )}
+        <LoadingButton sx={{ width: "40%" }} variant="contained" type="submit" loading={formik.isSubmitting}>
+          {currentStep === 0 ? "Next" : "Activate"}
+        </LoadingButton>
+      </FlexBox>
+    </Form>
   );
 };
 
