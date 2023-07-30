@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import TextField from "../../../../../components/mui/TextField";
-import { FormikHelpers, FormikProps } from "formik";
+import { FormikProps } from "formik";
 import { ActivateInitialValues } from "../../type";
 import AvatarUploader, { AvatarUploaderPropType } from "../../../../../components/core/AvatarUploader";
 import { Box } from "@mui/material";
