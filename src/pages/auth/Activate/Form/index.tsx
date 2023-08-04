@@ -20,8 +20,6 @@ interface Props {
 }
 
 const ActivateForm: React.FC<Props> = ({ currentStep, user, errorMsg, avatarUploaderProps, handleFormSubmit, handleBack }) => {
-  console.log("values =>", user);
-
   const formik = useFormik({
     initialValues: {
       firstName: user?.firstName || "",
